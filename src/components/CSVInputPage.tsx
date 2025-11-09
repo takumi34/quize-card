@@ -12,8 +12,6 @@ export const CSVInputPage: React.FC<CSVInputPageProps> = ({ onWordsLoaded }) => 
   const [csvText, setCsvText] = useState("");
   const [error, setError] = useState("");
 
-  const rowCount = csvText.trim() === "" ? 0 : csvText.trim().split('\n').length;
-
   const exampleCSV = `apple,りんご,I ate an apple.
 run,走る,I run every morning.
 book,本,This is a good book.`;
@@ -71,18 +69,10 @@ book,本,This is a good book.`;
               placeholder="apple,りんご,I ate an apple.&#10;run,走る,I run every morning.&#10;book,本,This is a good book."
               value={csvText}
               onChange={(e) => setCsvText(e.target.value)}
-              style={{
-                colorScheme: 'light'
-              }}
             />
-            <div className="flex justify-between items-center mt-2 sm:mt-3">
-              <p className="text-xs sm:text-sm text-gray-500">
-                <span className="font-medium">Format:</span> word, meaning, example (optional)
-              </p>
-              <p className="text-xs sm:text-sm text-gray-600 font-semibold">
-                {rowCount} rows
-              </p>
-            </div>
+            <p className="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-3">
+              <span className="font-medium">Format:</span> word, meaning, example (optional)
+            </p>
           </div>
 
           {error && (

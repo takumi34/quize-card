@@ -15,19 +15,40 @@ export const sanitizeText = (text: string): string => {
   return trimmed;
 };
 
+// Convert parsed rows to Word objects
+const convertToWords = (rows: Array<string[] | { word?: string; meaning?: string; example?: string }>): Word[] => {
+  return rows
+    .map((row) => {
+      const word = Array.isArray(row) ? row[0] : row.word;
+      const meaning = Array.isArray(row) ? row[1] : row.meaning;
+      const example = Array.isArray(row) ? row[2] : row.example;
+
+      return {
+        word: sanitizeText(word || ""),
+        meaning: sanitizeText(meaning || ""),
+        example: example ? sanitizeText(example) : undefined,
+        status: "unseen" as const,
+      };
+    })
+    .filter((word) => word.word && word.meaning);
+};
+
 export const parseCSV = (csvText: string): { words: Word[]; error?: string } => {
   try {
     // First, try parsing with header
-    let result = Papa.parse<{ word: string; meaning: string; example?: string }>(csvText, {
+    const result = Papa.parse<{ word: string; meaning: string; example?: string }>(csvText, {
       header: true,
       skipEmptyLines: true,
     });
 
-    // Check if the first row has 'word' and 'meaning' fields
-    // If not, it's likely a headerless CSV, so parse without header
+    // Check if the first row has valid 'word' and 'meaning' fields
+    // Exclude actual header row (when word field contains "word")
     const hasValidHeader = result.data.length > 0 &&
                           ('word' in result.data[0]) &&
-                          ('meaning' in result.data[0]);
+                          ('meaning' in result.data[0]) &&
+                          result.data[0].word !== undefined &&
+                          result.data[0].meaning !== undefined &&
+                          result.data[0].word.toLowerCase() !== 'word';
 
     if (!hasValidHeader) {
       // Parse without header - treat as array of arrays
@@ -41,15 +62,7 @@ export const parseCSV = (csvText: string): { words: Word[]; error?: string } => 
       }
 
       const rows = arrayResult.data.slice(0, MAX_WORDS_LIMIT);
-
-      const words: Word[] = rows
-        .map((row) => ({
-          word: sanitizeText(row[0] || ""),
-          meaning: sanitizeText(row[1] || ""),
-          example: row[2] ? sanitizeText(row[2]) : undefined,
-          status: "unseen" as const,
-        }))
-        .filter((word) => word.word && word.meaning);
+      const words = convertToWords(rows);
 
       if (words.length === 0) {
         return { words: [], error: "No valid words found in CSV" };
@@ -64,15 +77,7 @@ export const parseCSV = (csvText: string): { words: Word[]; error?: string } => 
     }
 
     const rows = result.data.slice(0, MAX_WORDS_LIMIT);
-
-    const words: Word[] = rows
-      .map((row) => ({
-        word: sanitizeText(row.word || ""),
-        meaning: sanitizeText(row.meaning || ""),
-        example: row.example ? sanitizeText(row.example) : undefined,
-        status: "unseen" as const,
-      }))
-      .filter((word) => word.word && word.meaning);
+    const words = convertToWords(rows);
 
     if (words.length === 0) {
       return { words: [], error: "No valid words found in CSV" };

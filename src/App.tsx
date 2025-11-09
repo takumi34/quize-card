@@ -10,11 +10,17 @@ const isValidWord = (obj: unknown): obj is Word => {
 
   const record = obj as Record<string, unknown>;
 
+  // Validate status field strictly
+  const validStatuses = ["unseen", "correct", "wrong"] as const;
+  const hasValidStatus = record.status === undefined ||
+    (typeof record.status === "string" &&
+     (validStatuses as readonly string[]).includes(record.status));
+
   return (
     typeof record.word === "string" &&
     typeof record.meaning === "string" &&
     (record.example === undefined || typeof record.example === "string") &&
-    (record.status === undefined || ["unseen", "correct", "wrong"].includes(record.status as string))
+    hasValidStatus
   );
 };
 
