@@ -68,8 +68,6 @@ export const SummaryPage: React.FC<SummaryPageProps> = ({ words, onRestart, onRe
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 p-3 sm:p-4 py-8 sm:py-12">
       <div className="max-w-5xl mx-auto fade-in">
-        <Header />
-
         <div className="text-center mb-6 sm:mb-8">
           <div className="text-4xl sm:text-5xl md:text-6xl mb-3 sm:mb-4">🎉</div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2 px-4">
@@ -221,6 +219,8 @@ export const SummaryPage: React.FC<SummaryPageProps> = ({ words, onRestart, onRe
             </div>
           )}
         </div>
+
+        <Header />
       </div>
     </div>
   );
