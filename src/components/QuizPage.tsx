@@ -1,16 +1,16 @@
-import { useState } from "react";
-import type { Word } from "../types";
-import { ProgressBar } from "./ProgressBar";
-import { Header } from "./Header";
+import { useState } from 'react'
+import type { Word } from '../types'
+import { ProgressBar } from './ProgressBar'
+import { Header } from './Header'
 
 interface QuizPageProps {
-  words: Word[];
-  currentIndex: number;
-  onMarkCorrect: () => void;
-  onMarkWrong: () => void;
-  onNext: () => void;
-  onFinish: () => void;
-  onBackToHome: () => void;
+  words: Word[]
+  currentIndex: number
+  onMarkCorrect: () => void
+  onMarkWrong: () => void
+  onNext: () => void
+  onFinish: () => void
+  onBackToHome: () => void
 }
 
 export const QuizPage: React.FC<QuizPageProps> = ({
@@ -22,35 +22,35 @@ export const QuizPage: React.FC<QuizPageProps> = ({
   onFinish,
   onBackToHome,
 }) => {
-  const [showAnswer, setShowAnswer] = useState(false);
-  const currentWord = words[currentIndex];
-  const isLastWord = currentIndex === words.length - 1;
+  const [showAnswer, setShowAnswer] = useState(false)
+  const currentWord = words[currentIndex]
+  const isLastWord = currentIndex === words.length - 1
 
   const handleShowAnswer = () => {
-    setShowAnswer(true);
-  };
+    setShowAnswer(true)
+  }
 
   const handleMark = (markFn: () => void) => {
-    markFn();
+    markFn()
     if (!isLastWord) {
-      setShowAnswer(false);
+      setShowAnswer(false)
     }
-  };
+  }
 
-  const handleCorrect = () => handleMark(onMarkCorrect);
-  const handleWrong = () => handleMark(onMarkWrong);
+  const handleCorrect = () => handleMark(onMarkCorrect)
+  const handleWrong = () => handleMark(onMarkWrong)
 
   const handleNext = () => {
     if (isLastWord) {
-      onFinish();
+      onFinish()
     } else {
-      onNext();
-      setShowAnswer(false);
+      onNext()
+      setShowAnswer(false)
     }
-  };
+  }
 
   if (!currentWord) {
-    return null;
+    return null
   }
 
   return (
@@ -58,7 +58,9 @@ export const QuizPage: React.FC<QuizPageProps> = ({
       <div className="max-w-4xl w-full fade-in">
         <ProgressBar current={currentIndex + 1} total={words.length} />
 
-        <div className={`flip-card ${showAnswer ? 'flip-card-flipped' : ''} mb-4 sm:mb-6`}>
+        <div
+          className={`flip-card ${showAnswer ? 'flip-card-flipped' : ''} mb-4 sm:mb-6`}
+        >
           <div className="flip-card-inner relative min-h-[400px] sm:min-h-[450px] md:min-h-[500px]">
             <div className="flip-card-front absolute inset-0">
               <div className="glass rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-10 md:p-12 min-h-[400px] sm:min-h-[450px] md:min-h-[500px] flex flex-col items-center justify-center">
@@ -73,7 +75,9 @@ export const QuizPage: React.FC<QuizPageProps> = ({
                     >
                       <span className="flex items-center gap-2 sm:gap-3">
                         <span>Show Answer</span>
-                        <span className="group-hover:translate-x-1 transition-transform">→</span>
+                        <span className="group-hover:translate-x-1 transition-transform">
+                          →
+                        </span>
                       </span>
                     </button>
                   )}
@@ -84,12 +88,18 @@ export const QuizPage: React.FC<QuizPageProps> = ({
             <div className="flip-card-back absolute inset-0">
               <div className="glass rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-10 md:p-12 min-h-[400px] sm:min-h-[450px] md:min-h-[500px] flex flex-col justify-center">
                 <div className="text-center mb-6 sm:mb-8">
-                  <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-6 sm:mb-8 break-words px-2">{currentWord.meaning}</p>
+                  <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-6 sm:mb-8 break-words px-2">
+                    {currentWord.meaning}
+                  </p>
 
                   {currentWord.example && (
                     <div className="mt-4 sm:mt-6 p-4 sm:p-6 bg-white/60 rounded-xl max-w-2xl mx-auto">
-                      <p className="text-xs sm:text-sm font-medium text-gray-500 mb-1 sm:mb-2">💬 Example</p>
-                      <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 italic leading-relaxed break-words">{currentWord.example}</p>
+                      <p className="text-xs sm:text-sm font-medium text-gray-500 mb-1 sm:mb-2">
+                        💬 Example
+                      </p>
+                      <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 italic leading-relaxed break-words">
+                        {currentWord.example}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -126,10 +136,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({
             onClick={onBackToHome}
             className="glass px-6 sm:px-7 md:px-8 py-3 sm:py-3.5 md:py-4 rounded-xl sm:rounded-2xl font-medium hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl border-2 border-gray-300 text-sm sm:text-base"
           >
-            <span className="flex items-center justify-center gap-2">
-              <span>🏠</span>
-              <span>Back to Home</span>
-            </span>
+            Back to Home
           </button>
 
           <button
@@ -156,10 +163,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({
               onClick={onFinish}
               className="glass px-6 sm:px-7 md:px-8 py-3 sm:py-3.5 md:py-4 rounded-xl sm:rounded-2xl font-medium hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl border-2 border-gray-300 text-sm sm:text-base"
             >
-              <span className="flex items-center justify-center gap-2">
-                <span>🚪</span>
-                <span>End Quiz</span>
-              </span>
+              End Quiz
             </button>
           )}
         </div>
@@ -169,5 +173,5 @@ export const QuizPage: React.FC<QuizPageProps> = ({
         <Header />
       </div>
     </div>
-  );
-};
+  )
+}
