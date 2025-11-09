@@ -1,6 +1,6 @@
-# Vocabulary Quiz App
+# Quiz Card
 
-A client-side vocabulary quiz application built with React, TypeScript, and TailwindCSS. Practice vocabulary with flashcard-style quizzes using CSV input.
+A client-side flashcard quiz application built with React, TypeScript, and TailwindCSS. Create custom quizzes from CSV and practice with interactive flashcards.
 
 ## Features
 

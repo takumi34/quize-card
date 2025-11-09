@@ -12,6 +12,8 @@ export const CSVInputPage: React.FC<CSVInputPageProps> = ({ onWordsLoaded }) => 
   const [csvText, setCsvText] = useState("");
   const [error, setError] = useState("");
 
+  const lineCount = csvText.trim() === "" ? 0 : csvText.trim().split('\n').length;
+
   const exampleCSV = `apple,りんご,I ate an apple.
 run,走る,I run every morning.
 book,本,This is a good book.`;
@@ -50,7 +52,7 @@ book,本,This is a good book.`;
         <div className="text-center mb-6 md:mb-8">
           <div className="inline-block">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
-              {ICONS.BOOK} Vocabulary Quiz
+              Quiz Card
             </h1>
             <div className="h-1 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-full"></div>
           </div>
@@ -70,9 +72,14 @@ book,本,This is a good book.`;
               value={csvText}
               onChange={(e) => setCsvText(e.target.value)}
             />
-            <p className="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-3">
-              <span className="font-medium">Format:</span> word, meaning, example (optional)
-            </p>
+            <div className="flex justify-between items-center mt-2 sm:mt-3">
+              <p className="text-xs sm:text-sm text-gray-500">
+                <span className="font-medium">Format:</span> word, meaning, example (optional)
+              </p>
+              <p className="text-xs sm:text-sm text-gray-600 font-semibold">
+                {lineCount} lines
+              </p>
+            </div>
           </div>
 
           {error && (

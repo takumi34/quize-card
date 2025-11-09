@@ -14,13 +14,14 @@ export const SummaryPage: React.FC<SummaryPageProps> = ({ words, onRestart, onRe
   const correctCount = words.filter((w) => w.status === "correct").length;
   const wrongCount = words.filter((w) => w.status === "wrong").length;
   const unseenCount = words.filter((w) => w.status === "unseen").length;
+  const wrongWords = words.filter((w) => w.status === "wrong");
 
-  const handleCopyAllWords = async () => {
-    const csv = wordsToCSV(words);
+  const handleCopyWrongWords = async () => {
+    const csv = wordsToCSV(wrongWords);
 
     try {
       await navigator.clipboard.writeText(csv);
-      alert(`Copied ${words.length} words to clipboard!`);
+      alert(`Copied ${wrongWords.length} wrong words to clipboard!`);
     } catch (error) {
       alert("Failed to copy to clipboard: " + (error as Error).message);
     }
@@ -200,22 +201,34 @@ export const SummaryPage: React.FC<SummaryPageProps> = ({ words, onRestart, onRe
             </div>
           ) : (
             <div>
-              <div className="flex justify-end mb-3">
-                <button
-                  onClick={handleCopyAllWords}
-                  className="px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 text-xs sm:text-sm"
-                >
-                  <span className="flex items-center gap-2">
-                    <span>📋</span>
-                    <span>Copy CSV</span>
-                  </span>
-                </button>
-              </div>
-              <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-2 border-gray-200">
-                <pre className="font-mono text-[10px] sm:text-xs text-gray-800 whitespace-pre-wrap break-words overflow-x-auto">
-                  {wordsToCSV(words)}
-                </pre>
-              </div>
+              {wrongWords.length > 0 ? (
+                <>
+                  <div className="flex justify-between items-center mb-3">
+                    <p className="text-xs sm:text-sm text-gray-600 font-medium">
+                      Wrong words only ({wrongWords.length} words) / 間違えた単語のみ ({wrongWords.length}個)
+                    </p>
+                    <button
+                      onClick={handleCopyWrongWords}
+                      className="px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-red-500 to-rose-500 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 text-xs sm:text-sm"
+                    >
+                      <span className="flex items-center gap-2">
+                        <span>📋</span>
+                        <span>Copy CSV</span>
+                      </span>
+                    </button>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-2 border-red-200">
+                    <pre className="font-mono text-[10px] sm:text-xs text-gray-800 whitespace-pre-wrap break-words overflow-x-auto">
+                      {wordsToCSV(wrongWords)}
+                    </pre>
+                  </div>
+                </>
+              ) : (
+                <div className="bg-green-50 rounded-lg p-6 border-2 border-green-200 text-center">
+                  <p className="text-lg font-semibold text-green-700 mb-2">🎉 Perfect Score!</p>
+                  <p className="text-sm text-green-600">No wrong words to display / 間違えた単語はありません</p>
+                </div>
+              )}
             </div>
           )}
         </div>
