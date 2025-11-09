@@ -97,19 +97,13 @@ book,本,This is a good book.`;
                 onClick={() => handleParse(true)}
                 className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 hover:from-indigo-700 hover:to-purple-700 text-sm sm:text-base"
               >
-                <span className="flex items-center justify-center gap-2">
-                  <span>{ICONS.ROCKET}</span>
-                  <span>Start Quiz (Random)</span>
-                </span>
+                Start Quiz (Random)
               </button>
               <button
                 onClick={() => handleParse(false)}
                 className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 hover:from-purple-700 hover:to-pink-700 text-sm sm:text-base"
               >
-                <span className="flex items-center justify-center gap-2">
-                  <span>{ICONS.ROCKET}</span>
-                  <span>Start Quiz (Order)</span>
-                </span>
+                Start Quiz (Order)
               </button>
             </div>
             <button
