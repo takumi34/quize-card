@@ -6,13 +6,15 @@ import { SummaryPage } from "./components/SummaryPage";
 import { STORAGE_KEY_WORDS, AUTO_FINISH_DELAY } from "./constants";
 
 const isValidWord = (obj: unknown): obj is Word => {
+  if (typeof obj !== "object" || obj === null) return false;
+
+  const record = obj as Record<string, unknown>;
+
   return (
-    typeof obj === "object" &&
-    obj !== null &&
-    typeof obj.word === "string" &&
-    typeof obj.meaning === "string" &&
-    (obj.example === undefined || typeof obj.example === "string") &&
-    (obj.status === undefined || ["unseen", "correct", "wrong"].includes(obj.status))
+    typeof record.word === "string" &&
+    typeof record.meaning === "string" &&
+    (record.example === undefined || typeof record.example === "string") &&
+    (record.status === undefined || ["unseen", "correct", "wrong"].includes(record.status as string))
   );
 };
 
