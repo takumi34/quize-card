@@ -47,6 +47,16 @@ npm run build
 npm run preview
 ```
 
+### Deploy
+
+Deploy to GitHub Pages:
+
+```bash
+npm run deploy
+```
+
+This command builds the project and publishes it to the `gh-pages` branch.
+
 ## CSV Format
 
 ```csv
